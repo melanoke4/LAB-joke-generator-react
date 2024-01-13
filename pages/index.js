@@ -11,25 +11,23 @@ function Home() {
   const [punchlineText, setPunchlineText] = useState('');
   const [shouldShowPunchline, setShouldShowPunchline] = useState(false);
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (buttonText.includes(getAJokeText)) {
-      getJoke()
-        .then((joke) => {
-          setSetupText(joke.setup);
-          setPunchlineText(joke.delivery);
-          setButtonText(getPunchlineText);
-        });
-    } else if (buttonText.includes(getPunchlineText)) {
+      const joke = await getJoke();
+      setSetupText(joke.setup);
+      setPunchlineText(joke.delivery);
+      setButtonText(getPunchlineText);
+    }
+    if (buttonText.includes(getPunchlineText)) {
       setShouldShowPunchline(true);
       setButtonText(getAnotherJokeText);
-    } else if (buttonText.includes(getAnotherJokeText)) {
-      getJoke()
-        .then((joke) => {
-          setShouldShowPunchline(false);
-          setSetupText(joke.setup);
-          setPunchlineText(joke.delivery);
-          setButtonText(getPunchlineText);
-        });
+    }
+    if (buttonText.includes(getAnotherJokeText)) {
+      const joke = await getJoke();
+      setShouldShowPunchline(false);
+      setSetupText(joke.setup);
+      setPunchlineText(joke.delivery);
+      setButtonText(getPunchlineText);
     }
   };
 
